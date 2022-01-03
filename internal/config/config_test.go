@@ -47,7 +47,7 @@ func TestInit(t *testing.T) {
 	}
 
 	expected := &Config{
-		DBC: dbCredentials,
+		DC: dbCredentials,
 	}
 
 	actual := Init()
