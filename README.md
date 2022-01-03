@@ -1,2 +1,1 @@
-# geo-service
-geo data
+# WIP: geo-service
