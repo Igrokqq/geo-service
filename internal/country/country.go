@@ -1,10 +1,10 @@
 package country
 
 import (
-	"github.com/jinzhu/gorm"
 	"github.com/vfilipovsky/geo-service/internal/city"
 	"github.com/vfilipovsky/geo-service/internal/region"
 	"github.com/vfilipovsky/geo-service/internal/state"
+	"gorm.io/gorm"
 )
 
 type Country struct {

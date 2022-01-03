@@ -1,8 +1,8 @@
 package city
 
 import (
-	"github.com/jinzhu/gorm"
 	"github.com/vfilipovsky/geo-service/internal/country"
+	"gorm.io/gorm"
 )
 
 type City struct {
