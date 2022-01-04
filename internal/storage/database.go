@@ -2,7 +2,12 @@ package storage
 
 import (
 	"fmt"
+	"github.com/vfilipovsky/geo-service/internal/modules/airport"
+	"github.com/vfilipovsky/geo-service/internal/modules/city"
 	"github.com/vfilipovsky/geo-service/internal/modules/country"
+	"github.com/vfilipovsky/geo-service/internal/modules/region"
+	"github.com/vfilipovsky/geo-service/internal/modules/state"
+	"github.com/vfilipovsky/geo-service/internal/modules/timezone"
 	"time"
 
 	"github.com/vfilipovsky/geo-service/internal/config"
@@ -17,7 +22,24 @@ type Database struct {
 
 // Migrate - sync db with gorm models
 func (d *Database) Migrate() error {
-	if err := d.conn.AutoMigrate(&country.Country{}, &country.Currency{}); err != nil {
+	if err := d.conn.AutoMigrate(
+		&region.Region{},
+		&country.Country{},
+		&country.Language{},
+		&country.Translation{},
+		&country.Currency{},
+		&timezone.Timezone{},
+		&country.Map{},
+		&country.AlternativeSpell{},
+		&country.PostalCode{},
+		&country.CName{},
+		&country.DialId{},
+		&country.DialIdSuffix{},
+		&country.Position{},
+		&state.State{},
+		&city.City{},
+		&airport.Airport{},
+	); err != nil {
 		return err
 	}
 

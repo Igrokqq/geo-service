@@ -10,6 +10,8 @@ type City struct {
 	Code string `gorm:"unique;not null"`
 	Name string `gorm:"unique;not null"`
 
-	Country country.Country
-	State   state.State
+	CountryId uint
+	Country   country.Country
+	StateId   uint
+	State     state.State
 }
