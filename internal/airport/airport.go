@@ -1,8 +1,6 @@
 package airport
 
-import (
-	"github.com/vfilipovsky/geo-service/internal/modules/city"
-)
+import "github.com/vfilipovsky/geo-service/internal/city"
 
 type Airport struct {
 	ID   uint   `gorm:"primaryKey"`

@@ -2,13 +2,13 @@ package storage
 
 import (
 	"fmt"
-	"github.com/vfilipovsky/geo-service/internal/modules/airport"
-	"github.com/vfilipovsky/geo-service/internal/modules/city"
-	"github.com/vfilipovsky/geo-service/internal/modules/continent"
-	"github.com/vfilipovsky/geo-service/internal/modules/country"
-	"github.com/vfilipovsky/geo-service/internal/modules/region"
-	"github.com/vfilipovsky/geo-service/internal/modules/state"
-	"github.com/vfilipovsky/geo-service/internal/modules/timezone"
+	"github.com/vfilipovsky/geo-service/internal/airport"
+	"github.com/vfilipovsky/geo-service/internal/city"
+	"github.com/vfilipovsky/geo-service/internal/continent"
+	"github.com/vfilipovsky/geo-service/internal/country"
+	"github.com/vfilipovsky/geo-service/internal/region"
+	"github.com/vfilipovsky/geo-service/internal/state"
+	"github.com/vfilipovsky/geo-service/internal/timezone"
 	"time"
 
 	"github.com/vfilipovsky/geo-service/internal/config"

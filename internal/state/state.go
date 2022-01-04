@@ -1,6 +1,8 @@
 package state
 
-import "github.com/vfilipovsky/geo-service/internal/modules/country"
+import (
+	"github.com/vfilipovsky/geo-service/internal/country"
+)
 
 type State struct {
 	ID   uint   `gorm:"primaryKey"`
