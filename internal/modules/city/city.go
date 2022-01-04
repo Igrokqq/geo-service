@@ -7,11 +7,11 @@ import (
 
 type City struct {
 	ID   uint   `gorm:"primaryKey"`
-	Code string `gorm:"unique;not null"`
-	Name string `gorm:"unique;not null"`
+	Code string `gorm:"unique;not null;size:3"`
+	Name string `gorm:"unique;not null;size:100"`
 
-	CountryId uint
+	CountryId uint `gorm:"not null"`
 	Country   country.Country
-	StateId   uint
+	StateId   uint `gorm:"default:null"`
 	State     state.State
 }
