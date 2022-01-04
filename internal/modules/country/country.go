@@ -9,10 +9,11 @@ import (
 type Country struct {
 	ID uint `gorm:"primaryKey"`
 
-	Languages  []Language          `gorm:"many2many:country_languages"`
-	Currencies []Currency          `gorm:"many2many:country_currencies"`
-	Timezones  []timezone.Timezone `gorm:"many2many:country_timezones"`
-	Neighbours []Country           `gorm:"many2many:country_neighbours"`
+	Languages  []Language            `gorm:"many2many:country_languages"`
+	Currencies []Currency            `gorm:"many2many:country_currencies"`
+	Timezones  []timezone.Timezone   `gorm:"many2many:country_timezones"`
+	Neighbours []Country             `gorm:"many2many:country_neighbours"`
+	Continents []continent.Continent `gorm:"many2many:country_continents"`
 
 	Translations []Translation      `gorm:"foreignKey:CountryId"`
 	Maps         []Map              `gorm:"foreignKey:CountryId"`
@@ -22,9 +23,6 @@ type Country struct {
 	Name       CName      `gorm:"not null"`
 	DialId     DialId     `gorm:"not null"`
 	Position   Position   `gorm:"not null"`
-
-	Continent   continent.Continent
-	ContinentId uint `gorm:"not null"`
 
 	Region   region.Region
 	RegionId uint `gorm:"not null"`
