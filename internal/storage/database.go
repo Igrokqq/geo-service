@@ -2,6 +2,7 @@ package storage
 
 import (
 	"fmt"
+	"github.com/vfilipovsky/geo-service/internal/modules/country"
 	"time"
 
 	"github.com/vfilipovsky/geo-service/internal/config"
@@ -16,7 +17,7 @@ type Database struct {
 
 // Migrate - sync db with gorm models
 func (d *Database) Migrate() error {
-	if err := d.conn.AutoMigrate(); err != nil {
+	if err := d.conn.AutoMigrate(&country.Country{}, &country.Currency{}); err != nil {
 		return err
 	}
 
