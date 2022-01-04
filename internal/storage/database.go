@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"github.com/vfilipovsky/geo-service/internal/modules/airport"
 	"github.com/vfilipovsky/geo-service/internal/modules/city"
+	"github.com/vfilipovsky/geo-service/internal/modules/continent"
 	"github.com/vfilipovsky/geo-service/internal/modules/country"
 	"github.com/vfilipovsky/geo-service/internal/modules/region"
 	"github.com/vfilipovsky/geo-service/internal/modules/state"
@@ -23,6 +24,7 @@ type Database struct {
 // Migrate - sync db with gorm models
 func (d *Database) Migrate() error {
 	if err := d.conn.AutoMigrate(
+		&continent.Continent{},
 		&region.Region{},
 		&country.Country{},
 		&country.Language{},
@@ -36,6 +38,7 @@ func (d *Database) Migrate() error {
 		&country.DialId{},
 		&country.DialIdSuffix{},
 		&country.Position{},
+		&country.Flag{},
 		&state.State{},
 		&city.City{},
 		&airport.Airport{},

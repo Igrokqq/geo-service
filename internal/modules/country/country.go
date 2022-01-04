@@ -18,6 +18,7 @@ type Country struct {
 	Translations []Translation      `gorm:"foreignKey:CountryId"`
 	Maps         []Map              `gorm:"foreignKey:CountryId"`
 	AltSpelling  []AlternativeSpell `gorm:"foreignKey:CountryId"`
+	Flags        []Flag             `gorm:"foreignKey:CountryId"`
 
 	PostalCode PostalCode `gorm:"not null"`
 	Name       CName      `gorm:"not null"`
@@ -34,17 +35,22 @@ type Country struct {
 	UnicodeFlag string
 }
 
-type DialId struct {
-	ID uint `gorm:"primaryKey"`
+type Flag struct {
+	ID        uint   `gorm:"primaryKey"`
+	Format    string `gorm:"not null;size:10"`
+	URL       string `gorm:"not null;size:200"`
+	CountryId uint   `gorm:"not null"`
+}
 
+type DialId struct {
+	ID        uint `gorm:"primaryKey"`
 	Root      string
 	Suffixes  []DialIdSuffix `gorm:"foreignKey:DialId"`
 	CountryId uint           `gorm:"not null"`
 }
 
 type DialIdSuffix struct {
-	ID uint `gorm:"primaryKey"`
-
+	ID     uint   `gorm:"primaryKey"`
 	Suffix string `gorm:"not null;size:50"`
 	DialId uint   `gorm:"not null"`
 }
