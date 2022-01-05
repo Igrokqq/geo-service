@@ -3,7 +3,7 @@ package main
 import (
 	"github.com/joho/godotenv"
 	"github.com/sirupsen/logrus"
-	"github.com/vfilipovsky/geo-service/internal/application/config"
+	"github.com/vfilipovsky/geo-service/internal/infrastructure/config"
 	"github.com/vfilipovsky/geo-service/internal/infrastructure/storage"
 )
 

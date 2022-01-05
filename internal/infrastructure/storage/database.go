@@ -4,7 +4,6 @@ import (
 	"fmt"
 	"time"
 
-	"github.com/vfilipovsky/geo-service/internal/application/config"
 	"github.com/vfilipovsky/geo-service/internal/domain/airport"
 	"github.com/vfilipovsky/geo-service/internal/domain/city"
 	"github.com/vfilipovsky/geo-service/internal/domain/continent"
@@ -12,6 +11,7 @@ import (
 	"github.com/vfilipovsky/geo-service/internal/domain/region"
 	"github.com/vfilipovsky/geo-service/internal/domain/state"
 	"github.com/vfilipovsky/geo-service/internal/domain/timezone"
+	"github.com/vfilipovsky/geo-service/internal/infrastructure/config"
 	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
 )

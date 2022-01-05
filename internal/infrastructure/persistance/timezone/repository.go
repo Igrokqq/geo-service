@@ -45,7 +45,7 @@ func (r *Repository) Save(tz *timezone.Timezone) error {
 	return nil
 }
 
-func (r *Repository) SaveMany(timezones []*timezone.Timezone) error {
+func (r *Repository) SaveMany(timezones *timezone.Timezones) error {
 	result := r.db.Create(timezones)
 
 	if result.Error != nil {
@@ -55,8 +55,8 @@ func (r *Repository) SaveMany(timezones []*timezone.Timezone) error {
 	return nil
 }
 
-func (r *Repository) FindAll() ([]*timezone.Timezone, error) {
-	var tzs []*timezone.Timezone
+func (r *Repository) FindAll() (*timezone.Timezones, error) {
+	var tzs *timezone.Timezones
 
 	result := r.db.Find(tzs)
 
