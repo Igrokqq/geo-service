@@ -10,7 +10,7 @@ type TimezoneService struct {
 	r timezone.Repository
 }
 
-func NewService(db *gorm.DB) *TimezoneService {
+func NewTimezoneService(db *gorm.DB) *TimezoneService {
 	return &TimezoneService{
 		r: persistance.NewTimezoneRepository(db),
 	}
