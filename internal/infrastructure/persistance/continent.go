@@ -1,19 +1,19 @@
-package continent
+package persistance
 
 import (
 	"github.com/vfilipovsky/geo-service/internal/domain/continent"
 	"gorm.io/gorm"
 )
 
-type Repository struct {
+type ContinentRepository struct {
 	db *gorm.DB
 }
 
-func NewRepository(db *gorm.DB) *Repository {
-	return &Repository{db: db}
+func NewContinentRepository(db *gorm.DB) *ContinentRepository {
+	return &ContinentRepository{db: db}
 }
 
-func (r *Repository) Find(id uint) (*continent.Continent, error) {
+func (r *ContinentRepository) Find(id uint) (*continent.Continent, error) {
 	var ct continent.Continent
 	result := r.db.First(&ct, id)
 
@@ -24,7 +24,7 @@ func (r *Repository) Find(id uint) (*continent.Continent, error) {
 	return &ct, nil
 }
 
-func (r *Repository) FindByName(name string) (*continent.Continent, error) {
+func (r *ContinentRepository) FindByName(name string) (*continent.Continent, error) {
 	var ct continent.Continent
 	result := r.db.Where("name = ?", name).First(&ct)
 
@@ -35,7 +35,7 @@ func (r *Repository) FindByName(name string) (*continent.Continent, error) {
 	return &ct, nil
 }
 
-func (r *Repository) Save(ct *continent.Continent) error {
+func (r *ContinentRepository) Save(ct *continent.Continent) error {
 	result := r.db.Create(ct)
 
 	if result.Error != nil {
@@ -45,7 +45,7 @@ func (r *Repository) Save(ct *continent.Continent) error {
 	return nil
 }
 
-func (r *Repository) SaveMany(continents *continent.Continents) error {
+func (r *ContinentRepository) SaveMany(continents *continent.Continents) error {
 	result := r.db.Create(continents)
 
 	if result.Error != nil {
@@ -55,7 +55,7 @@ func (r *Repository) SaveMany(continents *continent.Continents) error {
 	return nil
 }
 
-func (r *Repository) FindAll() (*continent.Continents, error) {
+func (r *ContinentRepository) FindAll() (*continent.Continents, error) {
 	var cts *continent.Continents
 
 	result := r.db.Find(cts)

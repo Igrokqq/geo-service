@@ -1,19 +1,19 @@
-package timezone
+package persistance
 
 import (
 	"github.com/vfilipovsky/geo-service/internal/domain/region"
 	"gorm.io/gorm"
 )
 
-type Repository struct {
+type RegionRepository struct {
 	db *gorm.DB
 }
 
-func NewRepository(db *gorm.DB) *Repository {
-	return &Repository{db: db}
+func NewRegionRepository(db *gorm.DB) *RegionRepository {
+	return &RegionRepository{db: db}
 }
 
-func (r *Repository) Find(id uint) (*region.Region, error) {
+func (r *RegionRepository) Find(id uint) (*region.Region, error) {
 	var rn region.Region
 	result := r.db.First(&rn, id)
 
@@ -24,7 +24,7 @@ func (r *Repository) Find(id uint) (*region.Region, error) {
 	return &rn, nil
 }
 
-func (r *Repository) FindByName(name string) (*region.Region, error) {
+func (r *RegionRepository) FindByName(name string) (*region.Region, error) {
 	var rn region.Region
 	result := r.db.Where("name = ?", name).First(&rn)
 
@@ -35,7 +35,7 @@ func (r *Repository) FindByName(name string) (*region.Region, error) {
 	return &rn, nil
 }
 
-func (r *Repository) Save(rn *region.Region) error {
+func (r *RegionRepository) Save(rn *region.Region) error {
 	result := r.db.Create(rn)
 
 	if result.Error != nil {
@@ -45,7 +45,7 @@ func (r *Repository) Save(rn *region.Region) error {
 	return nil
 }
 
-func (r *Repository) SaveMany(regions *region.Regions) error {
+func (r *RegionRepository) SaveMany(regions *region.Regions) error {
 	result := r.db.Create(regions)
 
 	if result.Error != nil {
@@ -55,7 +55,7 @@ func (r *Repository) SaveMany(regions *region.Regions) error {
 	return nil
 }
 
-func (r *Repository) FindAll() (*region.Regions, error) {
+func (r *RegionRepository) FindAll() (*region.Regions, error) {
 	var rns *region.Regions
 
 	result := r.db.Find(rns)
