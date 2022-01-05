@@ -1,8 +1,8 @@
 package city
 
 import (
-	"github.com/vfilipovsky/geo-service/internal/country"
-	"github.com/vfilipovsky/geo-service/internal/state"
+	"github.com/vfilipovsky/geo-service/internal/domain/country"
+	"github.com/vfilipovsky/geo-service/internal/domain/state"
 )
 
 type City struct {

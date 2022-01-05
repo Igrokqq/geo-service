@@ -1,9 +1,9 @@
 package country
 
 import (
-	"github.com/vfilipovsky/geo-service/internal/continent"
-	"github.com/vfilipovsky/geo-service/internal/region"
-	"github.com/vfilipovsky/geo-service/internal/timezone"
+	"github.com/vfilipovsky/geo-service/internal/domain/continent"
+	"github.com/vfilipovsky/geo-service/internal/domain/region"
+	"github.com/vfilipovsky/geo-service/internal/domain/timezone"
 )
 
 type Country struct {
