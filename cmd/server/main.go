@@ -38,9 +38,6 @@ func newApp() (app, error) {
 }
 
 func (a app) start() error {
-	logrus.Println("Starting server")
-	logrus.Println("Adding routes")
-
 	r := mux.NewRouter()
 
 	v1.AddTimezoneRoutes(r, a.db)
