@@ -6,7 +6,7 @@ import (
 	"github.com/gorilla/mux"
 	"github.com/joho/godotenv"
 	"github.com/sirupsen/logrus"
-	v1 "github.com/vfilipovsky/geo-service/internal/api/v1"
+	"github.com/vfilipovsky/geo-service/internal/api/v1"
 	"github.com/vfilipovsky/geo-service/internal/infrastructure/config"
 	"github.com/vfilipovsky/geo-service/internal/infrastructure/storage"
 	"gorm.io/gorm"
