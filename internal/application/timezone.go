@@ -12,8 +12,8 @@ type TimezoneService struct {
 	r timezone.Repository
 }
 
-func (s *TimezoneService) Delete(timezone *timezone.Timezone) error {
-	return errors.New("not implemented yet")
+func (s *TimezoneService) Delete(id uint) error {
+	return s.r.Delete(id)
 }
 
 func (s *TimezoneService) Update() (*timezone.Timezone, error) {
@@ -21,7 +21,7 @@ func (s *TimezoneService) Update() (*timezone.Timezone, error) {
 }
 
 func (s *TimezoneService) List() (*timezone.Timezones, error) {
-	return nil, errors.New("not implemented yet")
+	return s.r.FindAll()
 }
 
 func (s *TimezoneService) Create(timezone *timezone.Timezone) (*timezone.Timezone, error) {
