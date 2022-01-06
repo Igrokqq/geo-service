@@ -8,4 +8,5 @@ type Repository interface {
 	FindAll() (*Timezones, error)
 	Save(timezone *Timezone) error
 	SaveMany(timezones *Timezones) error
+	Delete(id uint) error
 }
