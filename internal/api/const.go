@@ -1,3 +1,3 @@
 package api
 
-const V1 = "/api/v1/"
+const V1Timezone = "/api/v1/timezone"

@@ -9,8 +9,6 @@ import (
 	"gorm.io/gorm"
 )
 
-const TZPath = api.V1 + "timezone"
-
 type TimezoneHandler struct {
 	s *application.TimezoneService
 }
@@ -24,12 +22,12 @@ func newTimezoneHandler(db *gorm.DB) *TimezoneHandler {
 func AddTimezoneRoutes(r *mux.Router, db *gorm.DB) {
 	h := newTimezoneHandler(db)
 
-	r.HandleFunc(TZPath+"/{id}", h.GetById).Methods(http.MethodGet)
-	r.HandleFunc(TZPath+"/{name}", h.GetByName).Methods(http.MethodGet)
-	r.HandleFunc(TZPath, h.List).Methods(http.MethodGet)
-	r.HandleFunc(TZPath, h.Create).Methods(http.MethodPost)
-	r.HandleFunc(TZPath+"/{id}", h.Update).Methods(http.MethodPut)
-	r.HandleFunc(TZPath+"/{id}", h.Delete).Methods(http.MethodDelete)
+	r.HandleFunc(api.V1Timezone+"/{id}", h.GetById).Methods(http.MethodGet)
+	r.HandleFunc(api.V1Timezone+"/{name}", h.GetByName).Methods(http.MethodGet)
+	r.HandleFunc(api.V1Timezone, h.List).Methods(http.MethodGet)
+	r.HandleFunc(api.V1Timezone, h.Create).Methods(http.MethodPost)
+	r.HandleFunc(api.V1Timezone+"/{id}", h.Update).Methods(http.MethodPut)
+	r.HandleFunc(api.V1Timezone+"/{id}", h.Delete).Methods(http.MethodDelete)
 }
 
 func (h *TimezoneHandler) List(w http.ResponseWriter, r *http.Request) {
