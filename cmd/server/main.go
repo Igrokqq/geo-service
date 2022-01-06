@@ -6,14 +6,15 @@ import (
 	"github.com/gorilla/mux"
 	"github.com/joho/godotenv"
 	"github.com/sirupsen/logrus"
-	"github.com/vfilipovsky/geo-service/internal/api/v1"
-	"github.com/vfilipovsky/geo-service/internal/infrastructure/config"
-	"github.com/vfilipovsky/geo-service/internal/infrastructure/storage"
+	"github.com/vfilipovsky/geo-service/internal/config"
+	"github.com/vfilipovsky/geo-service/internal/modules/timezone"
+	"github.com/vfilipovsky/geo-service/internal/storage"
 	"gorm.io/gorm"
 )
 
 type app struct {
-	db *gorm.DB
+	db     *gorm.DB
+	config *config.Config
 }
 
 func newApp() (app, error) {
@@ -21,8 +22,8 @@ func newApp() (app, error) {
 		return app{}, err
 	}
 
-	c := config.Init()
-	db, err := storage.NewConnection(c.DC)
+	cfg := config.Init()
+	db, err := storage.NewConnection(cfg.DbCredentials)
 
 	if err != nil {
 		return app{}, err
@@ -33,31 +34,26 @@ func newApp() (app, error) {
 	}
 
 	return app{
-		db: db,
+		db:     db,
+		config: cfg,
 	}, nil
 }
 
 func (a app) start() error {
 	r := mux.NewRouter()
 
-	v1.AddTimezoneRoutes(r, a.db)
+	timezone.AddRoutes(r, a.db)
 
-	logrus.Println("Serving on port :8080") // todo move app configs
-	if err := http.ListenAndServe(":8080", r); err != nil {
-		return err
-	}
-
-	return nil
+	logrus.Println("Listening on port :" + a.config.Http.Port)
+	return http.ListenAndServe(":"+a.config.Http.Port, r)
 }
 
 func main() {
-	s, err := newApp()
+	a, err := newApp()
 
 	if err != nil {
-		logrus.Panic(err)
+		logrus.Fatal(err)
 	}
 
-	if err := s.start(); err != nil {
-		logrus.Panic(err)
-	}
+	logrus.Fatal(a.start())
 }
