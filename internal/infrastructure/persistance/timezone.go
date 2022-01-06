@@ -36,9 +36,13 @@ func (r *TimezoneRepository) SaveMany(timezones *timezone.Timezones) error {
 }
 
 func (r *TimezoneRepository) FindAll() (*timezone.Timezones, error) {
-	var tzs *timezone.Timezones
+	var tzs timezone.Timezones
 
-	result := r.db.Find(tzs)
+	result := r.db.Find(&tzs)
 
-	return tzs, result.Error
+	return &tzs, result.Error
+}
+
+func (r *TimezoneRepository) Delete(id uint) error {
+	return r.db.Delete(&timezone.Timezone{}, id).Error
 }
