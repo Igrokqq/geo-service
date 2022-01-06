@@ -1,14 +1,15 @@
 package v1
 
 import (
-	"encoding/json"
 	"net/http"
-	"strconv"
 
 	"github.com/gorilla/mux"
+	"github.com/vfilipovsky/geo-service/internal/api"
 	"github.com/vfilipovsky/geo-service/internal/application"
 	"gorm.io/gorm"
 )
+
+const TZPath = api.V1 + "timezone"
 
 type TimezoneHandler struct {
 	s *application.TimezoneService
@@ -21,28 +22,36 @@ func newTimezoneHandler(db *gorm.DB) *TimezoneHandler {
 }
 
 func AddTimezoneRoutes(r *mux.Router, db *gorm.DB) {
-	th := newTimezoneHandler(db)
+	h := newTimezoneHandler(db)
 
-	r.HandleFunc("/api/v1/timezone/{id}", th.Get).Methods(http.MethodGet)
+	r.HandleFunc(TZPath+"/{id}", h.GetById).Methods(http.MethodGet)
+	r.HandleFunc(TZPath+"/{name}", h.GetByName).Methods(http.MethodGet)
+	r.HandleFunc(TZPath, h.List).Methods(http.MethodGet)
+	r.HandleFunc(TZPath, h.Create).Methods(http.MethodPost)
+	r.HandleFunc(TZPath+"/{id}", h.Update).Methods(http.MethodPut)
+	r.HandleFunc(TZPath+"/{id}", h.Delete).Methods(http.MethodDelete)
 }
 
-func (th *TimezoneHandler) Get(w http.ResponseWriter, r *http.Request) {
-	// todo request validator https://github.com/go-playground/validator
-	vars := mux.Vars(r)
+func (h *TimezoneHandler) List(w http.ResponseWriter, r *http.Request) {
+	api.Respond(w, "not implemented yet", http.StatusNotImplemented)
+}
 
-	id, err := strconv.ParseUint(vars["id"], 10, 64)
+func (h *TimezoneHandler) Delete(w http.ResponseWriter, r *http.Request) {
+	api.Respond(w, "not implemented yet", http.StatusNotImplemented)
+}
 
-	if err != nil {
-		// todo
-	}
+func (h *TimezoneHandler) Update(w http.ResponseWriter, r *http.Request) {
+	api.Respond(w, "not implemented yet", http.StatusNotImplemented)
+}
 
-	result, err := th.s.Get(uint(id))
+func (h *TimezoneHandler) Create(w http.ResponseWriter, r *http.Request) {
+	api.Respond(w, "not implemented yet", http.StatusNotImplemented)
+}
 
-	if err != nil {
-		// todo response writer
-	}
+func (h *TimezoneHandler) GetById(w http.ResponseWriter, r *http.Request) {
+	api.Respond(w, "not implemented yet", http.StatusNotImplemented)
+}
 
-	if err := json.NewEncoder(w).Encode(result); err != nil {
-		// todo
-	}
+func (h *TimezoneHandler) GetByName(w http.ResponseWriter, r *http.Request) {
+	api.Respond(w, "not implemented yet", http.StatusNotImplemented)
 }
