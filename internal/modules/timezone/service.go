@@ -22,10 +22,12 @@ func (s *Service) List() (*Timezones, error) {
 	return s.r.FindAll()
 }
 
-func (s *Service) Create(timezone *Timezone) (*Timezone, error) {
-	err := s.r.Save(timezone)
+func (s *Service) Create(req *createRequest) (*Timezone, error) {
+	timezone := Timezone{Name: req.Name}
 
-	return timezone, err
+	err := s.r.Save(&timezone)
+
+	return &timezone, err
 }
 
 func (s *Service) GetById(id uint) (*Timezone, error) {
