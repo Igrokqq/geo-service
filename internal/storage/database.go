@@ -14,6 +14,7 @@ import (
 	"github.com/vfilipovsky/geo-service/internal/modules/timezone"
 	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
+	"gorm.io/gorm/logger"
 )
 
 // Migrate - sync db with gorm models
@@ -55,7 +56,9 @@ func NewConnection(dc *config.DatabaseCredentials) (*gorm.DB, error) {
 	conn, err := gorm.Open(postgres.New(postgres.Config{
 		DSN:                  dsn,
 		PreferSimpleProtocol: true,
-	}))
+	}), &gorm.Config{
+		Logger: logger.Default.LogMode(logger.Silent),
+	})
 
 	return conn, err
 }
