@@ -1,12 +1,16 @@
 package api
 
 import (
+	"errors"
 	"strconv"
 
 	"github.com/go-playground/validator"
 )
 
-var Validate = validator.New()
+var (
+	ErrIdMustBeAPositiveNum = errors.New("id must be a positive number")
+	Validate                = validator.New()
+)
 
 func ParseIdToUint(id string) (uint, error) {
 	i, err := strconv.Atoi(id)
