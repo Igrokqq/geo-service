@@ -2,9 +2,14 @@ package api
 
 import (
 	"encoding/json"
+	"errors"
 	"net/http"
 
 	"github.com/sirupsen/logrus"
+)
+
+var (
+	ErrIdMustBeAPositiveNum = errors.New("id must be a positive number")
 )
 
 type errorResponse struct {
@@ -13,20 +18,24 @@ type errorResponse struct {
 }
 
 func Respond(w http.ResponseWriter, value interface{}, statusCode int) {
-	w.WriteHeader(statusCode)
-	w.Header().Set("Content-Type", "application/json")
+	send(w, &value, statusCode)
+}
 
+func RespondAnError(w http.ResponseWriter, err error, statusCode int) {
 	if statusCode >= http.StatusInternalServerError {
-		logrus.Error(value)
-		send(w, errorResponse{Message: "internal service error", Code: statusCode})
+		logrus.Error(err)
+		send(w, errorResponse{Code: statusCode, Message: "internal service error"}, statusCode)
 		return
 	}
 
-	send(w, &value)
+	send(w, errorResponse{Code: statusCode, Message: err.Error()}, statusCode)
 }
 
-func send(w http.ResponseWriter, value interface{}) {
-	if err := json.NewEncoder(w).Encode(value); err != nil {
+func send(w http.ResponseWriter, value interface{}, statusCode int) {
+	w.WriteHeader(statusCode)
+	w.Header().Set("Content-Type", "application/json")
+
+	if err := json.NewEncoder(w).Encode(&value); err != nil {
 		logrus.Errorf("failed to send response: %s", err.Error())
 	}
 }
