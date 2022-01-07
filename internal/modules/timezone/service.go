@@ -2,44 +2,102 @@ package timezone
 
 import (
 	"errors"
+	"net/http"
 
+	"github.com/vfilipovsky/geo-service/internal/api"
 	"gorm.io/gorm"
 )
 
+var ErrTimezoneNotFound = errors.New("timezone not found")
+
 type Service struct {
 	r Repository
-}
-
-func (s *Service) Delete(id uint) error {
-	return s.r.Delete(id)
-}
-
-func (s *Service) Update() (*Timezone, error) {
-	return nil, errors.New("not implemented yet")
-}
-
-func (s *Service) List() (*Timezones, error) {
-	return s.r.FindAll()
-}
-
-func (s *Service) Create(req *createRequest) (*Timezone, error) {
-	timezone := Timezone{Name: req.Name}
-
-	err := s.r.Save(&timezone)
-
-	return &timezone, err
-}
-
-func (s *Service) GetById(id uint) (*Timezone, error) {
-	return s.r.Find(id)
-}
-
-func (s *Service) GetByName(name string) error {
-	return errors.New("not implemented yet")
 }
 
 func NewService(db *gorm.DB) *Service {
 	return &Service{
 		r: NewRepository(db),
 	}
+}
+
+func (s *Service) Delete(id uint) *api.Response {
+	err := s.r.Delete(id)
+
+	if err != nil {
+		return &api.Response{Error: err, Code: http.StatusInternalServerError}
+	}
+
+	return &api.Response{Code: http.StatusOK}
+}
+
+func (s *Service) Update(id uint, req *updateRequest) *api.Response {
+	exist, err := s.r.Find(id)
+
+	if errors.Is(err, gorm.ErrRecordNotFound) {
+		return &api.Response{Code: http.StatusNotFound, Error: ErrTimezoneNotFound}
+	} else if err != nil {
+		return &api.Response{Code: http.StatusInternalServerError, Error: err}
+	}
+
+	exist.Name = req.Name
+	err = s.r.Save(exist)
+
+	if err != nil {
+		return &api.Response{Code: http.StatusInternalServerError, Error: err}
+	}
+
+	return &api.Response{Code: http.StatusOK, Value: &exist}
+}
+
+func (s *Service) List() *api.Response {
+	list, err := s.r.FindAll()
+
+	if err != nil {
+		return &api.Response{Code: http.StatusInternalServerError, Error: err}
+	}
+
+	return &api.Response{Code: http.StatusOK, Value: &list}
+}
+
+func (s *Service) Create(req *createRequest) *api.Response {
+	timezone := Timezone{Name: req.Name}
+	exist, err := s.r.FindByName(req.Name)
+
+	if !errors.Is(err, gorm.ErrRecordNotFound) {
+		return &api.Response{Code: http.StatusOK, Value: exist}
+	} else if err != nil {
+		return &api.Response{Code: http.StatusInternalServerError, Error: err}
+	}
+
+	err = s.r.Save(&timezone)
+
+	if err != nil {
+		return &api.Response{Code: http.StatusInternalServerError, Error: err}
+	}
+
+	return &api.Response{Code: http.StatusOK, Value: &timezone}
+}
+
+func (s *Service) GetById(id uint) *api.Response {
+	tz, err := s.r.Find(id)
+
+	if errors.Is(err, gorm.ErrRecordNotFound) {
+		return &api.Response{Code: http.StatusNotFound, Error: ErrTimezoneNotFound}
+	} else if err != nil {
+		return &api.Response{Code: http.StatusInternalServerError, Error: err}
+	}
+
+	return &api.Response{Code: http.StatusOK, Value: &tz}
+}
+
+func (s *Service) GetByName(name string) *api.Response {
+	tz, err := s.r.FindByName(name)
+
+	if errors.Is(err, gorm.ErrRecordNotFound) {
+		return &api.Response{Code: http.StatusNotFound, Error: ErrTimezoneNotFound}
+	} else if err != nil {
+		return &api.Response{Code: http.StatusInternalServerError, Error: err}
+	}
+
+	return &api.Response{Code: http.StatusOK, Value: &tz}
 }

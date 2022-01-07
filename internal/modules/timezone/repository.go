@@ -38,7 +38,11 @@ func (r *TimezoneRepository) FindByName(name string) (*Timezone, error) {
 }
 
 func (r *TimezoneRepository) Save(tz *Timezone) error {
-	return r.db.Create(tz).Error
+	if tz.ID == 0 {
+		return r.db.Create(tz).Error
+	}
+
+	return r.db.Save(tz).Error
 }
 
 func (r *TimezoneRepository) SaveMany(timezones *Timezones) error {
