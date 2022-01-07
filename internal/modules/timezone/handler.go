@@ -12,11 +12,11 @@ import (
 const V1 = "/api/v1/timezone"
 
 type createRequest struct {
-	Name string `schema:"name" validate:"required"`
+	Name string `validate:"required"`
 }
 
 type updateRequest struct {
-	Name string `schema:"name" validate:"required"`
+	Name string `validate:"required"`
 }
 
 type Handler struct {
