@@ -70,6 +70,11 @@ func (h *Handler) Update(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+	if err := api.Validate.Struct(&updateReq); err != nil {
+		api.Respond(w, &api.Response{Error: err, Code: http.StatusBadRequest})
+		return
+	}
+
 	api.Respond(w, h.s.Update(id, &updateReq))
 }
 
@@ -81,7 +86,7 @@ func (h *Handler) Create(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	if err := api.Validate.Struct(createReq); err != nil {
+	if err := api.Validate.Struct(&createReq); err != nil {
 		api.Respond(w, &api.Response{Error: err, Code: http.StatusBadRequest})
 		return
 	}
