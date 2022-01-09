@@ -10,6 +10,7 @@ type Repository interface {
 	FindAll() (*Regions, error)
 	Save(region *Region) error
 	SaveMany(regions *Regions) error
+	Delete(id uint) error
 }
 
 type RegionRepository struct {
@@ -50,4 +51,8 @@ func (r *RegionRepository) FindAll() (*Regions, error) {
 	result := r.db.Find(&rns)
 
 	return &rns, result.Error
+}
+
+func (r *RegionRepository) Delete(id uint) error {
+	return r.db.Delete(&Region{}, id).Error
 }
