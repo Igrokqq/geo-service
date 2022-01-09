@@ -7,6 +7,7 @@ import (
 	"github.com/joho/godotenv"
 	"github.com/sirupsen/logrus"
 	"github.com/vfilipovsky/geo-service/internal/config"
+	"github.com/vfilipovsky/geo-service/internal/modules/region"
 	"github.com/vfilipovsky/geo-service/internal/modules/timezone"
 	"github.com/vfilipovsky/geo-service/internal/storage"
 	"gorm.io/gorm"
@@ -43,6 +44,7 @@ func (a app) start() error {
 	r := mux.NewRouter()
 
 	timezone.AddRoutes(r, a.db)
+	region.AddRoutes(r, a.db)
 
 	logrus.Println("Listening on port :" + a.config.Http.Port)
 	return http.ListenAndServe(":"+a.config.Http.Port, r)
