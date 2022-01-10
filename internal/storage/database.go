@@ -4,6 +4,10 @@ import (
 	"fmt"
 	"time"
 
+	"gorm.io/driver/postgres"
+	"gorm.io/gorm"
+	"gorm.io/gorm/logger"
+
 	"github.com/vfilipovsky/geo-service/internal/config"
 	"github.com/vfilipovsky/geo-service/internal/modules/airport"
 	"github.com/vfilipovsky/geo-service/internal/modules/city"
@@ -12,9 +16,6 @@ import (
 	"github.com/vfilipovsky/geo-service/internal/modules/region"
 	"github.com/vfilipovsky/geo-service/internal/modules/state"
 	"github.com/vfilipovsky/geo-service/internal/modules/timezone"
-	"gorm.io/driver/postgres"
-	"gorm.io/gorm"
-	"gorm.io/gorm/logger"
 )
 
 // Migrate - sync db with gorm models

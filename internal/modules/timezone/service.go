@@ -4,8 +4,9 @@ import (
 	"errors"
 	"net/http"
 
-	"github.com/vfilipovsky/geo-service/internal/api"
 	"gorm.io/gorm"
+
+	"github.com/vfilipovsky/geo-service/internal/api"
 )
 
 var ErrTimezoneNotFound = errors.New("timezone not found")

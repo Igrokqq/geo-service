@@ -5,8 +5,9 @@ import (
 	"net/http"
 
 	"github.com/gorilla/mux"
-	"github.com/vfilipovsky/geo-service/internal/api"
 	"gorm.io/gorm"
+
+	"github.com/vfilipovsky/geo-service/internal/api"
 )
 
 const V1 = "/api/v1/region"
