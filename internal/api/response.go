@@ -26,11 +26,11 @@ func Respond(w http.ResponseWriter, resp *Response) {
 
 	if resp.Code >= http.StatusInternalServerError {
 		logrus.Error(resp.Error)
-		send(w, errorResponse{Code: resp.Code, Message: "internal service error"}, resp.Code)
+		send(w, &errorResponse{Code: resp.Code, Message: "internal service error"}, resp.Code)
 		return
 	}
 
-	send(w, errorResponse{Code: resp.Code, Message: resp.Error.Error()}, resp.Code)
+	send(w, &errorResponse{Code: resp.Code, Message: resp.Error.Error()}, resp.Code)
 }
 
 func send(w http.ResponseWriter, value interface{}, statusCode int) {
