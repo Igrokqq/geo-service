@@ -6,11 +6,13 @@ import (
 	"github.com/gorilla/mux"
 	"github.com/joho/godotenv"
 	"github.com/sirupsen/logrus"
+	"gorm.io/gorm"
+
 	"github.com/vfilipovsky/geo-service/internal/config"
+	"github.com/vfilipovsky/geo-service/internal/modules/continent"
 	"github.com/vfilipovsky/geo-service/internal/modules/region"
 	"github.com/vfilipovsky/geo-service/internal/modules/timezone"
 	"github.com/vfilipovsky/geo-service/internal/storage"
-	"gorm.io/gorm"
 )
 
 type app struct {
@@ -45,6 +47,7 @@ func (a app) start() error {
 
 	timezone.AddRoutes(r, a.db)
 	region.AddRoutes(r, a.db)
+	continent.AddRoutes(r, a.db)
 
 	logrus.Println("Listening on port :" + a.config.Http.Port)
 	return http.ListenAndServe(":"+a.config.Http.Port, r)
