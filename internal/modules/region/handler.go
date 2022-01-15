@@ -8,6 +8,7 @@ import (
 	"gorm.io/gorm"
 
 	"github.com/vfilipovsky/geo-service/internal/api"
+	"github.com/vfilipovsky/geo-service/internal/service"
 )
 
 const V1 = "/api/v1/region"
@@ -45,7 +46,7 @@ func (h *Handler) Delete(w http.ResponseWriter, r *http.Request) {
 	id, err := api.ParseIdToUint(mux.Vars(r)["id"])
 
 	if err != nil {
-		api.Respond(w, &api.Response{Error: err, Code: http.StatusBadRequest})
+		api.Respond(w, &service.Response{Error: err, Code: http.StatusBadRequest})
 		return
 	}
 
@@ -56,19 +57,19 @@ func (h *Handler) Update(w http.ResponseWriter, r *http.Request) {
 	id, err := api.ParseIdToUint(mux.Vars(r)["id"])
 
 	if err != nil {
-		api.Respond(w, &api.Response{Error: err, Code: http.StatusBadRequest})
+		api.Respond(w, &service.Response{Error: err, Code: http.StatusBadRequest})
 		return
 	}
 
 	var updateReq updateRequest
 
 	if err := json.NewDecoder(r.Body).Decode(&updateReq); err != nil {
-		api.Respond(w, &api.Response{Error: err, Code: http.StatusBadRequest})
+		api.Respond(w, &service.Response{Error: err, Code: http.StatusBadRequest})
 		return
 	}
 
 	if err := api.Validate.Struct(&updateReq); err != nil {
-		api.Respond(w, &api.Response{Error: err, Code: http.StatusBadRequest})
+		api.Respond(w, &service.Response{Error: err, Code: http.StatusBadRequest})
 		return
 	}
 
@@ -79,12 +80,12 @@ func (h *Handler) Create(w http.ResponseWriter, r *http.Request) {
 	var createReq createRequest
 
 	if err := json.NewDecoder(r.Body).Decode(&createReq); err != nil {
-		api.Respond(w, &api.Response{Error: err, Code: http.StatusBadRequest})
+		api.Respond(w, &service.Response{Error: err, Code: http.StatusBadRequest})
 		return
 	}
 
 	if err := api.Validate.Struct(&createReq); err != nil {
-		api.Respond(w, &api.Response{Error: err, Code: http.StatusBadRequest})
+		api.Respond(w, &service.Response{Error: err, Code: http.StatusBadRequest})
 		return
 	}
 
@@ -105,7 +106,7 @@ func (h *Handler) GetById(w http.ResponseWriter, r *http.Request) {
 	id, err := api.ParseIdToUint(mux.Vars(r)["id"])
 
 	if err != nil {
-		api.Respond(w, &api.Response{Error: err, Code: http.StatusBadRequest})
+		api.Respond(w, &service.Response{Error: err, Code: http.StatusBadRequest})
 		return
 	}
 

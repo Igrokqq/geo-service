@@ -5,20 +5,16 @@ import (
 	"net/http"
 
 	"github.com/sirupsen/logrus"
-)
 
-type Response struct {
-	Error error
-	Code  int
-	Value interface{}
-}
+	"github.com/vfilipovsky/geo-service/internal/service"
+)
 
 type errorResponse struct {
 	Code    int    `json:"code"`
 	Message string `json:"message"`
 }
 
-func Respond(w http.ResponseWriter, resp *Response) {
+func Respond(w http.ResponseWriter, resp *service.Response) {
 	if resp.Error == nil {
 		send(w, &resp.Value, resp.Code)
 		return

@@ -6,7 +6,7 @@ import (
 
 	"gorm.io/gorm"
 
-	"github.com/vfilipovsky/geo-service/internal/api"
+	"github.com/vfilipovsky/geo-service/internal/service"
 )
 
 var ErrContinentNotFound = errors.New("continent not found")
@@ -21,84 +21,84 @@ func NewService(db *gorm.DB) *Service {
 	}
 }
 
-func (s *Service) Delete(id uint) *api.Response {
+func (s *Service) Delete(id uint) *service.Response {
 	err := s.r.Delete(id)
 
 	if err != nil {
-		return &api.Response{Error: err, Code: http.StatusInternalServerError}
+		return &service.Response{Error: err, Code: http.StatusInternalServerError}
 	}
 
-	return &api.Response{Code: http.StatusOK}
+	return &service.Response{Code: http.StatusOK}
 }
 
-func (s *Service) Update(id uint, req *updateRequest) *api.Response {
+func (s *Service) Update(id uint, req *updateRequest) *service.Response {
 	exist, err := s.r.Find(id)
 
 	if errors.Is(err, gorm.ErrRecordNotFound) {
-		return &api.Response{Code: http.StatusNotFound, Error: ErrContinentNotFound}
+		return &service.Response{Code: http.StatusNotFound, Error: ErrContinentNotFound}
 	} else if err != nil {
-		return &api.Response{Code: http.StatusInternalServerError, Error: err}
+		return &service.Response{Code: http.StatusInternalServerError, Error: err}
 	}
 
 	exist.Name = req.Name
 	err = s.r.Save(exist)
 
 	if err != nil {
-		return &api.Response{Code: http.StatusInternalServerError, Error: err}
+		return &service.Response{Code: http.StatusInternalServerError, Error: err}
 	}
 
-	return &api.Response{Code: http.StatusOK, Value: &exist}
+	return &service.Response{Code: http.StatusOK, Value: &exist}
 }
 
-func (s *Service) List() *api.Response {
+func (s *Service) List() *service.Response {
 	list, err := s.r.FindAll()
 
 	if err != nil {
-		return &api.Response{Code: http.StatusInternalServerError, Error: err}
+		return &service.Response{Code: http.StatusInternalServerError, Error: err}
 	}
 
-	return &api.Response{Code: http.StatusOK, Value: &list}
+	return &service.Response{Code: http.StatusOK, Value: &list}
 }
 
-func (s *Service) Create(req *createRequest) *api.Response {
+func (s *Service) Create(req *createRequest) *service.Response {
 	continent := Continent{Name: req.Name}
 	exist, err := s.r.FindByName(req.Name)
 
 	if !errors.Is(err, gorm.ErrRecordNotFound) {
-		return &api.Response{Code: http.StatusOK, Value: exist}
+		return &service.Response{Code: http.StatusOK, Value: exist}
 	} else if err != nil {
-		return &api.Response{Code: http.StatusInternalServerError, Error: err}
+		return &service.Response{Code: http.StatusInternalServerError, Error: err}
 	}
 
 	err = s.r.Save(&continent)
 
 	if err != nil {
-		return &api.Response{Code: http.StatusInternalServerError, Error: err}
+		return &service.Response{Code: http.StatusInternalServerError, Error: err}
 	}
 
-	return &api.Response{Code: http.StatusOK, Value: &continent}
+	return &service.Response{Code: http.StatusOK, Value: &continent}
 }
 
-func (s *Service) GetById(id uint) *api.Response {
+func (s *Service) GetById(id uint) *service.Response {
 	continent, err := s.r.Find(id)
 
 	if errors.Is(err, gorm.ErrRecordNotFound) {
-		return &api.Response{Code: http.StatusNotFound, Error: ErrContinentNotFound}
+		return &service.Response{Code: http.StatusNotFound, Error: ErrContinentNotFound}
 	} else if err != nil {
-		return &api.Response{Code: http.StatusInternalServerError, Error: err}
+		return &service.Response{Code: http.StatusInternalServerError, Error: err}
 	}
 
-	return &api.Response{Code: http.StatusOK, Value: &continent}
+	return &service.Response{Code: http.StatusOK, Value: &continent}
 }
 
-func (s *Service) GetByName(name string) *api.Response {
+func (s *Service) GetByName(name string) *service.Response {
 	continent, err := s.r.FindByName(name)
 
 	if errors.Is(err, gorm.ErrRecordNotFound) {
-		return &api.Response{Code: http.StatusNotFound, Error: ErrContinentNotFound}
+		return &service.Response{Code: http.StatusNotFound, Error: ErrContinentNotFound}
 	} else if err != nil {
-		return &api.Response{Code: http.StatusInternalServerError, Error: err}
+		return &service.Response{Code: http.StatusInternalServerError, Error: err}
 	}
 
-	return &api.Response{Code: http.StatusOK, Value: &continent}
+	return &service.Response{Code: http.StatusOK, Value: &continent}
 }
