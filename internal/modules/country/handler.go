@@ -30,7 +30,7 @@ func AddRoutes(r *mux.Router, db *gorm.DB) {
 	r.HandleFunc(V1, h.List).Methods(http.MethodGet)
 	//r.HandleFunc(V1, h.Create).Methods(http.MethodPost)
 	//r.HandleFunc(V1+"/{id}", h.Update).Methods(http.MethodPut)
-	//r.HandleFunc(V1+"/{id}", h.Delete).Methods(http.MethodDelete)
+	r.HandleFunc(V1+"/{id}", h.Delete).Methods(http.MethodDelete)
 }
 
 func (h *Handler) GetById(w http.ResponseWriter, r *http.Request) {
@@ -50,6 +50,17 @@ func (h *Handler) GetByName(w http.ResponseWriter, r *http.Request) {
 	api.Respond(w, h.s.GetByName(name))
 }
 
-func (h *Handler) List(w http.ResponseWriter, r *http.Request) {
+func (h *Handler) List(w http.ResponseWriter, _ *http.Request) {
 	api.Respond(w, h.s.List())
+}
+
+func (h *Handler) Delete(w http.ResponseWriter, r *http.Request) {
+	id, err := api.ParseIdToUint(mux.Vars(r)["id"])
+
+	if err != nil {
+		api.Respond(w, &service.Response{Error: err, Code: http.StatusBadRequest})
+		return
+	}
+
+	api.Respond(w, h.s.Delete(id))
 }

@@ -21,7 +21,13 @@ func NewService(db *gorm.DB) *Service {
 }
 
 func (s *Service) GetById(id uint) *service.Response {
-	return &service.Response{}
+	country, err := s.r.Find(id)
+
+	if err != nil {
+		return &service.Response{Error: err, Code: http.StatusInternalServerError}
+	}
+
+	return &service.Response{Code: http.StatusOK, Value: &country}
 }
 
 func (s *Service) GetByName(name string) *service.Response {
@@ -44,4 +50,14 @@ func (s *Service) List() *service.Response {
 	}
 
 	return &service.Response{Code: http.StatusOK, Value: &list}
+}
+
+func (s *Service) Delete(id uint) *service.Response {
+	err := s.r.Delete(id)
+
+	if err != nil {
+		return &service.Response{Error: err, Code: http.StatusInternalServerError}
+	}
+
+	return &service.Response{Code: http.StatusOK}
 }
