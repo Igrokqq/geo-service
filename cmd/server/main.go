@@ -1,6 +1,7 @@
 package main
 
 import (
+	"github.com/vfilipovsky/geo-service/internal/modules/country"
 	"net/http"
 
 	"github.com/gorilla/mux"
@@ -48,6 +49,7 @@ func (a app) start() error {
 	timezone.AddRoutes(r, a.db)
 	region.AddRoutes(r, a.db)
 	continent.AddRoutes(r, a.db)
+	country.AddRoutes(r, a.db)
 
 	logrus.Println("Listening on port :" + a.config.Http.Port)
 	return http.ListenAndServe(":"+a.config.Http.Port, r)
