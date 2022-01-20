@@ -1,7 +1,6 @@
 package main
 
 import (
-	"github.com/vfilipovsky/geo-service/internal/modules/country"
 	"net/http"
 
 	"github.com/gorilla/mux"
@@ -11,6 +10,7 @@ import (
 
 	"github.com/vfilipovsky/geo-service/internal/config"
 	"github.com/vfilipovsky/geo-service/internal/modules/continent"
+	"github.com/vfilipovsky/geo-service/internal/modules/country"
 	"github.com/vfilipovsky/geo-service/internal/modules/region"
 	"github.com/vfilipovsky/geo-service/internal/modules/timezone"
 	"github.com/vfilipovsky/geo-service/internal/storage"

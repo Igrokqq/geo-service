@@ -26,8 +26,8 @@ func AddRoutes(r *mux.Router, db *gorm.DB) {
 	h := newHandler(db)
 
 	r.HandleFunc(V1+"/{id}", h.GetById).Methods(http.MethodGet)
-	//r.HandleFunc(V1+"/name/{name}", h.GetByName).Methods(http.MethodGet)
-	//r.HandleFunc(V1, h.List).Methods(http.MethodGet)
+	r.HandleFunc(V1+"/name/{name}", h.GetByName).Methods(http.MethodGet)
+	r.HandleFunc(V1, h.List).Methods(http.MethodGet)
 	//r.HandleFunc(V1, h.Create).Methods(http.MethodPost)
 	//r.HandleFunc(V1+"/{id}", h.Update).Methods(http.MethodPut)
 	//r.HandleFunc(V1+"/{id}", h.Delete).Methods(http.MethodDelete)
@@ -42,4 +42,14 @@ func (h *Handler) GetById(w http.ResponseWriter, r *http.Request) {
 	}
 
 	api.Respond(w, h.s.GetById(id))
+}
+
+func (h *Handler) GetByName(w http.ResponseWriter, r *http.Request) {
+	name := mux.Vars(r)["name"]
+
+	api.Respond(w, h.s.GetByName(name))
+}
+
+func (h *Handler) List(w http.ResponseWriter, r *http.Request) {
+	api.Respond(w, h.s.List())
 }
